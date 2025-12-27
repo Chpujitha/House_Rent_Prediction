@@ -17,6 +17,7 @@ st.write("Predict monthly house rent based on property details")
 #input fields
 bhk = st.number_input("BHK", min_value=1, max_value=10, value=3)
 size = st.number_input("Size (sq.ft)", min_value=300, max_value=10000, value=2500)
+floor = st.text_input("Floor", value="1 out of 3")
 area_type = st.selectbox("Area Type",["Super built-up  Area", "Built-up  Area", "Carpet  Area"])
 city = st.selectbox("City", ["Bangalore", "Chennai", "Delhi", "Hyderabad", "Kolkata", "Mumbai"])
 furnishing = st.selectbox("Furnishing Status", ["Unfurnished", "Semi-Furnished", "Furnished"])
@@ -30,6 +31,7 @@ if st.button("🔍 Predict Rent"):
     input_data = pd.DataFrame({
         'BHK': [bhk],
         'Size': [size],
+        'Floor': [floor],
         'Area Type': [area_type],
         'City': [city],
         'Furnishing Status': [furnishing],
@@ -38,8 +40,8 @@ if st.button("🔍 Predict Rent"):
         'Point of Contact': [contact]
     })
 
-# Encode & scale
-encoded_data = encoder.transform(input_data)
-scaled_data = scaler.transform(encoded_data)
-prediction = model.predict(scaled_data)
-st.success(f"💰 Predicted Monthly Rent: ₹ {prediction[0]:,.2f}")
+    # Encode & scale
+    encoded_data = encoder.transform(input_data)
+    scaled_data = scaler.transform(encoded_data)
+    prediction = model.predict(scaled_data)
+    st.success(f"💰 Predicted Monthly Rent: ₹ {prediction[0]:,.2f}")
